@@ -15,19 +15,37 @@ docker run --name myjenkins2 --privileged -p 8090:8080 -v $(pwd)/appjardir:/var/
 ```bash
 pipeline {
     agent any
-    
+
     stages {
-        stage('Repo Clone') {
+        stage('Clone Repository') {
             steps {
-                // Get some code from a GitHub repository
-                git branch:'main', url :'https://github.com/seungji2001/jenkins-fisa-lab.git'
-                echo "다운로드"
+                git branch: 'main', url: 'https://github.com/seungji2001/jenkins-fisa-lab.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                dir('./') {                   
+                    sh 'chmod +x gradlew'                    
+                    sh './gradlew clean build -x test'
+                    sh 'echo $WORKSPACE'
+                }
+            }
+        }
+        stage('Copy JAR') {  // 큰따옴표 오류 수정
+            steps {
+                script {
+                def jarFile = 'build/libs/SpringApp-0.0.1-SNAPSHOT.jar'                   
+                sh "cp ${jarFile} /var/jenkins_home/appjar/"
+                }
             }
         }
     }
 }
-
 ```
 
 ### 젠킨스 루트 계정에 젠킨스 통해 업로드한 git 확인 가능
 ![image](https://github.com/user-attachments/assets/cd29b7b6-f672-47d6-a123-32d152c5e28e)
+
+### 젠킨스 경로 안에서 배포
+![image](https://github.com/user-attachments/assets/780cecff-5a56-4abf-a80e-485bfcdaedda)
+
