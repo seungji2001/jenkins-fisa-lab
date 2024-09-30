@@ -10,3 +10,24 @@ docker run --name myjenkins2 --privileged -p 8090:8080 -v $(pwd)/appjardir:/var/
 - **v $(pwd)/appjardir:/var/jenkins_home/appjar**: 이 옵션은 바인드 마운트(bind mount) 옵션입니다.
 - `$(pwd)/appjardir`: 현재 작업 디렉토리에서 `appjardir` 폴더를 컨테이너와 공유합니다.
 - `/var/jenkins_home/appjar`: Jenkins 컨테이너 내부에서 해당 폴더가 `/var/jenkins_home/appjar`로 마운트됩니다. 이렇게 하면 로컬의 `appjardir` 폴더에 저장된 파일이 컨테이너 내에서 접근 가능해집니다.
+
+### 젠킨스 파이프라인 설정
+```bash
+pipeline {
+    agent any
+    
+    stages {
+        stage('Repo Clone') {
+            steps {
+                // Get some code from a GitHub repository
+                git branch:'main', url :'https://github.com/seungji2001/jenkins-fisa-lab.git'
+                echo "다운로드"
+            }
+        }
+    }
+}
+
+```
+
+### 젠킨스 루트 계정에 젠킨스 통해 업로드한 git 확인 가능
+![image](https://github.com/user-attachments/assets/cd29b7b6-f672-47d6-a123-32d152c5e28e)
