@@ -49,3 +49,8 @@ pipeline {
 ### 젠킨스 경로 안에서 배포
 ![image](https://github.com/user-attachments/assets/780cecff-5a56-4abf-a80e-485bfcdaedda)
 
+### 트러블 슈팅
+바인드 마운트 호스트 디렉터리/var/jenkins_home/appjar권한 부여 필요
+```bash
+chmod +R 755
+```
