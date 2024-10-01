@@ -1,4 +1,4 @@
-# bind 마운트 & jenkins 배포 과정 자동화 하기 
+## bind 마운트 & jenkins 배포 과정 자동화 하기 
 ### root 계정으로 jenkins 실행 후 쓰기 권한 변경
 ```bash
 docker exec -u root -it myjenkins bash
